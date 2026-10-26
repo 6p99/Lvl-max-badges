@@ -66,5 +66,5 @@
    * Once your credentials are verified and games are loaded, the main menu will appear with the following options:
      * **1** · Claim games (`claim games`)
      * **2** · Refresh authentication (`refresh auth`)
-     * **3** · Set executable fingerprint (`set fingerprint`) (`exe path or pid` حيث تضع مسار أي ملف `.exe` للعبة أو رقم العملية PID الخاص بها لتوليد البصمة الصحيحة).
+     * **3** · Set executable fingerprint (`set fingerprint`) (where you provide any game's `.exe` path or its PID to generate the proper fingerprint).
      * **4** · Exit
