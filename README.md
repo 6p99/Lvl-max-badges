@@ -21,29 +21,38 @@
      ```
 
 3. **Get Your Token:**
-   * Copy the JavaScript snippet below, paste it into the **Console**, and press `Enter`:
+   * Copy the updated JavaScript snippet below, paste it into the **Console**, and press `Enter`:
      ```javascript
      window.webpackChunkdiscord_app.push([
        [Math.random()],
        {},
-       req => {
-         if (!req.c) return;
-         for (const m of Object.keys(req.c)
-           .map(x => req.c[x].exports)
-           .filter(x => x)) {
-           if (m.default && m.default.getToken !== undefined) {
-             return copy(m.default.getToken());
-           }
-           if (m.getToken !== undefined) {
-             return copy(m.getToken());
-           }
+       (e) => {
+         for (let c of Object.values(e.c)) {
+           try {
+             let t = c.exports && c.exports.default && (c.exports.default.getToken || c.exports.default.m);
+             if (t) {
+               let token = typeof t === 'function' ? t() : t;
+               if (token && typeof token === 'string' && token.length > 50) {
+                 copy(token);
+                 console.log('%cSuccess! Token copied to clipboard.', 'font-size: 16px; color: green;');
+                 return;
+               }
+             }
+             if (c.exports && c.exports.getToken) {
+               let token = c.exports.getToken();
+               if (token && typeof token === 'string' && token.length > 50) {
+                 copy(token);
+                 console.log('%cSuccess! Token copied to clipboard.', 'font-size: 16px; color: green;');
+                 return;
+               }
+             }
+           } catch (err) {}
          }
-       },
+         console.log('%cCould not find token automatically. Please use the Network tab method.', 'color: red;');
+       }
      ]);
-     console.log('%cWorked!', 'font-size: 50px');
-     console.log(`%cYou now have your token in the clipboard!`, 'font-size: 16px');
      ```
-   * After running this code, your **token** will be automatically copied to your clipboard.
+   * After running this code, if successful, you will see a green success message and your **token** will be automatically copied to your clipboard.
 
 4. **Run the Script via Python:**
    * Open your command line (`CMD` or `PowerShell`) inside the script's folder.
@@ -57,5 +66,5 @@
    * Once your credentials are verified and games are loaded, the main menu will appear with the following options:
      * **1** · Claim games (`claim games`)
      * **2** · Refresh authentication (`refresh auth`)
-     * **3** · Set executable fingerprint (`set fingerprint`)
+     * **3** · Set executable fingerprint (`set fingerprint`) (`exe path or pid` حيث تضع مسار أي ملف `.exe` للعبة أو رقم العملية PID الخاص بها لتوليد البصمة الصحيحة).
      * **4** · Exit
